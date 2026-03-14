@@ -1,13 +1,13 @@
 package ma.spring.suiviprojet.projet.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import ma.spring.suiviprojet.facturation.entity.Facture;
 
 import java.time.LocalDate;
 import java.util.List;
+
+
 
 @Entity
 @Table(name = "phases")
@@ -63,4 +63,10 @@ public class Phase {
     @OneToMany(mappedBy = "phase", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<LigneEmployePhase> employesAssignes;
+
+    //relation avec facture
+
+    @OneToMany(mappedBy = "phase")
+    private List<Facture> factures;
+
 }

@@ -2,6 +2,7 @@ package ma.spring.suiviprojet.facturation.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ma.spring.suiviprojet.projet.entity.Phase;
 
 import java.time.LocalDate;
 
@@ -20,4 +21,7 @@ public class Facture {
 
     private LocalDate dateFacture;
 
+    @ManyToOne
+    @JoinColumn(name = "phase_id")
+    private Phase phase;
 }
