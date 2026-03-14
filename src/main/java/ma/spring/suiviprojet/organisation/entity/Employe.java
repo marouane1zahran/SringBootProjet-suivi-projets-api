@@ -39,7 +39,7 @@ public class Employe {
 
     // La relation inverse vers l'association
     @OneToMany(mappedBy = "employe")
-    @ToString.Exclude // Évite la boucle infinie
+    @ToString.Exclude
     private List<LigneEmployePhase> phasesAssignees;
 
     @OneToMany(mappedBy = "chefProjet")
@@ -48,5 +48,7 @@ public class Employe {
 
 
 
-    // TODO pour le Dev 2 : Ajouter la relation @ManyToOne vers Profil
+    @ManyToOne
+    @JoinColumn(name = "profil_id", nullable = false)
+    private Profil profil;
 }

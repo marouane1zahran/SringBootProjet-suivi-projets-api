@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ma.spring.suiviprojet.organisation.entity.Employe;
+import ma.spring.suiviprojet.organisation.entity.Organisme;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,7 +38,10 @@ public class Projet {
 
     private Double montant;
 
-    // TODO: Nous ajouterons les relations complexes (Organisme) juste après !
+
+    @ManyToOne
+    @JoinColumn(name = "organisme_id", nullable = false)
+    private Organisme organisme;
 
     @OneToMany(mappedBy = "projet", cascade = CascadeType.ALL)
     @ToString.Exclude
