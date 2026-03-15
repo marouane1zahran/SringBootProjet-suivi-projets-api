@@ -27,7 +27,7 @@ public class FactureController {
     @PostMapping
     public ResponseEntity<FactureResponseDTO> create(@RequestBody FactureCreateDTO dto) {
 
-        Phase phase = phaseRepository.findById(dto.getPhaseId().intValue())
+        Phase phase = phaseRepository.findById(dto.getPhaseId())
                 .orElseThrow(() -> new RuntimeException("Phase not found"));
 
         Facture facture = new Facture();
