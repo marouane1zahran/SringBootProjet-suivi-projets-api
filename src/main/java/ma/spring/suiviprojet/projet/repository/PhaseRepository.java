@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PhaseRepository extends JpaRepository<Phase, Integer> {
+public interface PhaseRepository extends JpaRepository<Phase, Long> {
 
     // Cherche toutes les phases liées à un ID de projet
-    List<Phase> findByProjetId(Integer projetId);
+    List<Phase> findByProjetId(Long projetId);
 }

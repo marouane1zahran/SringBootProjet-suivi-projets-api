@@ -29,7 +29,7 @@ public class AffectationService {
         Employe employe = employeRepository.findById(dto.getEmployeId().intValue())
                 .orElseThrow(() -> new RuntimeException("Employé introuvable"));
 
-        Phase phase = phaseRepository.findById(dto.getPhaseId().intValue())
+        Phase phase = phaseRepository.findById(dto.getPhaseId())
                 .orElseThrow(() -> new RuntimeException("Phase introuvable"));
 
         if (dto.getDateDebut().isAfter(dto.getDateFin())) {
