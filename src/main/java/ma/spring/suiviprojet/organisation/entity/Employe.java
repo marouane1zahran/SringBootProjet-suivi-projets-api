@@ -51,4 +51,5 @@ public class Employe {
     @ManyToOne
     @JoinColumn(name = "profil_id", nullable = false)
     private Profil profil;
+
 }
