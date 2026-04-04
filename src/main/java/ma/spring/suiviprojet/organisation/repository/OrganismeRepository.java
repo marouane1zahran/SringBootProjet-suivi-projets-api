@@ -18,4 +18,5 @@ public interface OrganismeRepository extends JpaRepository<Organisme, Integer> {
 
     // Recherche par nom de contact
     List<Organisme> findByNomContactContainingIgnoreCase(String nomContact);
+
 }
