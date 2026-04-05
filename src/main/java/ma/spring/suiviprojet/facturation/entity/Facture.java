@@ -21,6 +21,8 @@ public class Facture {
 
     private LocalDate dateFacture;
 
+    private Double montant;
+
     @ManyToOne
     @JoinColumn(name = "phase_id")
     private Phase phase;
