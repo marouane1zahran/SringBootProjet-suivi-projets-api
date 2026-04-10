@@ -9,9 +9,6 @@ import org.mapstruct.Mapping;
 public interface FactureMapper {
 
     @Mapping(source = "phase.id", target = "phaseId")
+    @Mapping(source = "phase.libelle", target = "libellePhase")
     FactureResponseDTO toDto(Facture facture);
-
-
-
-
 }

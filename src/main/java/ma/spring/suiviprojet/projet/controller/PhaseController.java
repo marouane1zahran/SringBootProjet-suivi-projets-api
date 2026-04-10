@@ -44,5 +44,21 @@ public class PhaseController {
         return ResponseEntity.ok(phaseMaj);
     }
 
-    // (Optionnel pour l'instant) Les autres méthodes PUT et DELETE suivront la même logique
+    @PutMapping("/phases/{id}")
+    public ResponseEntity<PhaseResponseDTO> modifierPhase(@PathVariable Integer id, @Valid @RequestBody PhaseRequestDTO requestDTO) {
+        PhaseResponseDTO response = phaseService.modifierPhase(id, requestDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/phases/{id}")
+    public ResponseEntity<Void> supprimerPhase(@PathVariable Integer id) {
+        phaseService.supprimerPhase(id);
+        return ResponseEntity.noContent().build();
+    }
+    // --- PUT : TERMINER UNE PHASE ---
+    // On ajoute bien "/phases/" pour correspondre à ce qu'attend React
+    @PutMapping("/phases/{id}/terminer")
+    public ResponseEntity<PhaseResponseDTO> marquerTerminee(@PathVariable Integer id) {
+        return ResponseEntity.ok(phaseService.marquerCommeTerminee(id));
+    }
 }

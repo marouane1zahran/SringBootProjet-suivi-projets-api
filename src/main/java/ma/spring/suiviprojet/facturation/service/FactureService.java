@@ -47,7 +47,7 @@ public class FactureService {
 
         // 5. Mettre à jour l'état de facturation de la phase
         phase.setEtatFacturation(true);
-
+        facture.setMontant(phase.getMontant());
         // 6. Sauvegarder la facture
         Facture saved = factureRepository.save(facture);
 
@@ -70,8 +70,29 @@ public class FactureService {
         return factureMapper.toDto(facture);
     }
 
-    // Supprimer une facture
+    // Supprimer une facture et libérer la phase
     public void delete(Long id) {
+        Facture facture = factureRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Facture introuvable"));
+
+        // On remet la phase à "non facturée" pour pouvoir la refacturer plus tard
+        Phase phase = facture.getPhase();
+        phase.setEtatFacturation(false);
+        phaseRepository.save(phase);
+
+        // On supprime la facture
         factureRepository.deleteById(id);
+    }
+    public void encaisserPaiement(Long factureId) {
+        Facture facture = factureRepository.findById(factureId)
+                .orElseThrow(() -> new RuntimeException("Facture introuvable"));
+
+        // On récupère la phase associée
+        Phase phase = facture.getPhase();
+
+        // On marque la phase comme payée
+        phase.setEtatPaiement(true);
+
+        phaseRepository.save(phase);
     }
 }

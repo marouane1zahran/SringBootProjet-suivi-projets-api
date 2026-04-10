@@ -2,6 +2,8 @@ package ma.spring.suiviprojet.projet.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.spring.suiviprojet.exceptions.RegleMetierException;
+import ma.spring.suiviprojet.organisation.entity.Employe;
+import ma.spring.suiviprojet.organisation.entity.Organisme;
 import ma.spring.suiviprojet.organisation.repository.EmployeRepository;
 import ma.spring.suiviprojet.organisation.repository.OrganismeRepository;
 import ma.spring.suiviprojet.projet.dto.ProjetRequestDTO;
@@ -72,7 +74,7 @@ public class ProjetService {
     }
 
     // --- Méthode pour MODIFIER un projet (PUT) ---
-    public ProjetResponseDTO modifierProjet(Integer id, ProjetRequestDTO requestDTO) {
+    public ProjetResponseDTO modifierProjet(Integer id,  ProjetRequestDTO requestDTO) {
 
         // 1. On vérifie que le projet existe
         Projet projetExistant = projetRepository.findById(id)
@@ -91,21 +93,31 @@ public class ProjetService {
                     }
                 });
 
-        // 4. RÈGLE : Vérifier l'existence des relations
-        organismeRepository.findById(requestDTO.getOrganismeId())
+        // 👇 4. LA CORRECTION COMMENCE ICI 👇
+        // On récupère et ON CONSERVE les vraies entités depuis la base
+        Organisme organismeClient = organismeRepository.findById(requestDTO.getOrganismeId())
                 .orElseThrow(() -> new RegleMetierException("L'organisme client spécifié n'existe pas."));
-        employeRepository.findById(requestDTO.getChefProjetId())
+
+        Employe chefProjet = employeRepository.findById(requestDTO.getChefProjetId())
                 .orElseThrow(() -> new RegleMetierException("Le chef de projet spécifié n'existe pas."));
 
+        // Astuce Anti-Crash : On détache temporairement les objets pour empêcher le Mapper
+        // de modifier leurs clés primaires par erreur
+        projetExistant.setOrganisme(null);
+        projetExistant.setChefProjet(null);
 
+        // Le mapper met à jour les champs texte (code, nom, description, dates, montant...)
         projetMapper.updateEntityFromDto(requestDTO, projetExistant);
 
+        // On rattache les VRAIES entités que l'on vient de récupérer
+        projetExistant.setOrganisme(organismeClient);
+        projetExistant.setChefProjet(chefProjet);
 
+        // 5. On sauvegarde
         projetExistant = projetRepository.save(projetExistant);
 
         return projetMapper.toResponseDTO(projetExistant);
     }
-
     // --- Méthode pour SUPPRIMER un projet (DELETE sous conditions) ---
     public void supprimerProjet(Integer id) {
         Projet projet = projetRepository.findById(id)

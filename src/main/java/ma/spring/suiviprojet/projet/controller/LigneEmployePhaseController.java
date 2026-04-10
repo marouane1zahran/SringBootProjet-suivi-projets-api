@@ -39,4 +39,20 @@ public class LigneEmployePhaseController {
 
         return ResponseEntity.ok(affectations);
     }
+    @DeleteMapping("/{phaseId}/affectations/{employeId}")
+    public ResponseEntity<Void> desaffecterEmploye(@PathVariable Integer phaseId, @PathVariable Integer employeId) {
+        // Appelez votre service ici pour supprimer via new LigneEmployePhaseId(employeId, phaseId)
+        affectationService.desaffecterEmploye(phaseId, employeId);
+        return ResponseEntity.noContent().build();
+    }
+    // --- MODIFIER UNE AFFECTATION (PUT) ---
+    @PutMapping("/{phaseId}/affectations/{employeId}")
+    public ResponseEntity<LigneEmployePhaseResponseDTO> modifierAffectation(
+            @PathVariable Integer phaseId,
+            @PathVariable Integer employeId,
+            @Valid @RequestBody LigneEmployePhaseRequestDTO requestDTO) {
+
+        LigneEmployePhaseResponseDTO reponse = affectationService.modifierAffectation(phaseId, employeId, requestDTO);
+        return ResponseEntity.ok(reponse);
+    }
 }

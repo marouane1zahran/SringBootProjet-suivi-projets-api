@@ -34,6 +34,8 @@ public class Phase {
     @Column(name = "date_fin")
     private LocalDate dateFin;
 
+
+
     private Double montant;
 
     //d'initialiser les états à 'false' par défaut lors de la création d'une phase

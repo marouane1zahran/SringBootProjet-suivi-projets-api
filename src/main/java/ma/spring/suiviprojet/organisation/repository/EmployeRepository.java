@@ -18,5 +18,4 @@ public interface EmployeRepository extends JpaRepository<Employe, Integer> {
     // Recherche un employé par son email
     Optional<Employe> findByEmail(String email);
 
-
 }

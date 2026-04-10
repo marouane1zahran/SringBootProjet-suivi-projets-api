@@ -11,5 +11,6 @@ public class EmployeResponseDTO {
     private String prenom;
     private String email;
     private String telephone;
+    private Long profilId;
 
 }

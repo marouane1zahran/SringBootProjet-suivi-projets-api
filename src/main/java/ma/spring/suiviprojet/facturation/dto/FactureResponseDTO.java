@@ -5,10 +5,10 @@ import java.time.LocalDate;
 
 @Data
 public class FactureResponseDTO {
-
     private Long id;
     private String code;
     private LocalDate dateFacture;
+    private Double montant;
     private Long phaseId;
-
+    private String libellePhase;  
 }

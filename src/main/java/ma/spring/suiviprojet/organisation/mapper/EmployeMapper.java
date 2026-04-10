@@ -12,10 +12,12 @@ public interface EmployeMapper {
 
     Employe toEntity(EmployeCreateDTO dto);
 
+    @Mapping(source = "profil.id", target = "profilId")
     EmployeResponseDTO toDTO(Employe employe);
 
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profil", ignore = true)
     void updateEntityFromDto(EmployeCreateDTO dto, @MappingTarget Employe entity);
+
 }

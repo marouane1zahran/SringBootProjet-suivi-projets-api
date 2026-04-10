@@ -91,4 +91,60 @@ public class LigneEmployePhaseService {
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
+
+    // --- DÉSAFFECTER UN EMPLOYÉ (DELETE) ---
+    public void desaffecterEmploye(Integer phaseId, Integer employeId) {
+        // On recrée la clé composée pour chercher l'affectation exacte
+        LigneEmployePhaseId idCompose = new LigneEmployePhaseId(employeId, phaseId);
+
+        LigneEmployePhase affectation = affectationRepository.findById(idCompose)
+                .orElseThrow(() -> new RegleMetierException("Cette affectation n'existe pas."));
+
+        affectationRepository.delete(affectation);
+    }
+
+    // --- MODIFIER LES DATES D'UNE AFFECTATION (PUT) ---
+    public LigneEmployePhaseResponseDTO modifierAffectation(Integer phaseId, Integer employeId, LigneEmployePhaseRequestDTO requestDTO) {
+
+        LigneEmployePhaseId idCompose = new LigneEmployePhaseId(employeId, phaseId);
+
+        LigneEmployePhase affectationExistante = affectationRepository.findById(idCompose)
+                .orElseThrow(() -> new RegleMetierException("Cette affectation n'existe pas."));
+
+        Phase phase = affectationExistante.getPhase();
+
+        // 1. RÈGLE : Cohérence des dates
+        if (requestDTO.getDateDebut().isAfter(requestDTO.getDateFin())) {
+            throw new RegleMetierException("La date de début d'affectation doit être antérieure à la date de fin.");
+        }
+
+        // 2. RÈGLE : Inclus dans la phase
+        if (requestDTO.getDateDebut().isBefore(phase.getDateDebut()) || requestDTO.getDateFin().isAfter(phase.getDateFin())) {
+            throw new RegleMetierException("Les dates d'affectation doivent être strictement comprises dans la période de la phase.");
+        }
+
+        // 3. RÈGLE : Vérifier le chevauchement (en excluant l'affectation qu'on est en train de modifier !)
+        List<LigneEmployePhase> affectationsExistantes = affectationRepository.findByEmployeId(employeId);
+
+        for (LigneEmployePhase existante : affectationsExistantes) {
+            // Astuce : On ignore la ligne actuelle pour éviter qu'elle ne rentre en conflit avec elle-même
+            if (existante.getId().equals(idCompose)) {
+                continue;
+            }
+
+            boolean isOverlapping = !requestDTO.getDateDebut().isAfter(existante.getDateFin())
+                    && !requestDTO.getDateFin().isBefore(existante.getDateDebut());
+
+            if (isOverlapping) {
+                throw new RegleMetierException("Impossible : L'employé est déjà affecté à une autre tâche sur cette période.");
+            }
+        }
+
+        // 4. Mise à jour des dates uniquement (On ne touche surtout pas aux IDs !)
+        affectationExistante.setDateDebut(requestDTO.getDateDebut());
+        affectationExistante.setDateFin(requestDTO.getDateFin());
+
+        affectationExistante = affectationRepository.save(affectationExistante);
+        return mapper.toResponseDTO(affectationExistante);
+    }
 }

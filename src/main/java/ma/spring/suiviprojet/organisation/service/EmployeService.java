@@ -9,6 +9,7 @@ import ma.spring.suiviprojet.organisation.entity.Profil;
 import ma.spring.suiviprojet.organisation.mapper.EmployeMapper;
 import ma.spring.suiviprojet.organisation.repository.EmployeRepository;
 import ma.spring.suiviprojet.organisation.repository.ProfilRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class EmployeService {
     private final EmployeRepository employeRepository;
     private final ProfilRepository profilRepository;
     private final EmployeMapper employeMapper;
+    private final PasswordEncoder passwordEncoder;
 
     // --- CRÉATION ---
     public EmployeResponseDTO create(EmployeCreateDTO dto) {
@@ -30,6 +32,9 @@ public class EmployeService {
 
         Profil profil = profilRepository.findById(dto.getProfilId().intValue())
                 .orElseThrow(() -> new RegleMetierException("Le profil spécifié n'existe pas avec l'ID : " + dto.getProfilId()));
+
+        String motDePasseHache = passwordEncoder.encode(dto.getPassword());
+        employe.setPassword(motDePasseHache);
 
         employe.setProfil(profil);
         Employe saved = employeRepository.save(employe);
@@ -62,7 +67,23 @@ public class EmployeService {
                 .orElseThrow(() -> new RegleMetierException("Le profil spécifié n'existe pas."));
 
 
+        String loginActuel = employeExistant.getLogin();
+        String passwordActuel = employeExistant.getPassword();
+
         employeMapper.updateEntityFromDto(dto, employeExistant);
+
+        if (dto.getLogin() == null || dto.getLogin().trim().isEmpty()) {
+            employeExistant.setLogin(loginActuel);
+        }
+
+        if (dto.getPassword() == null || dto.getPassword().trim().isEmpty()) {
+            employeExistant.setPassword(passwordActuel);
+        } else {
+
+             employeExistant.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        // 5. Mise à jour de la relation Profil
         employeExistant.setProfil(profil);
 
         return employeMapper.toDTO(employeRepository.save(employeExistant));

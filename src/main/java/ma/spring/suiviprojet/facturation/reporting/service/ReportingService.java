@@ -1,6 +1,5 @@
 package ma.spring.suiviprojet.facturation.reporting.service;
 
-
 import lombok.RequiredArgsConstructor;
 import ma.spring.suiviprojet.facturation.reporting.dto.ChiffreAffaireDTO;
 import ma.spring.suiviprojet.facturation.reporting.dto.FactureParProjetDTO;
@@ -15,24 +14,14 @@ public class ReportingService {
 
     private final ReportingRepository repository;
 
-    // Retourne le chiffre d'affaires total
     public ChiffreAffaireDTO getTotal() {
-
-        // appel de la requête SQL
         Double total = repository.getTotalChiffreAffaire();
-
-        // transformation en DTO
-        return new ChiffreAffaireDTO(total);
+        // Si total est null, on renvoie 0.0 pour le Dashboard
+        return new ChiffreAffaireDTO(total != null ? total : 0.0);
     }
 
-
-    // Retourne le chiffre d'affaires par projet
     public List<FactureParProjetDTO> getParProjet() {
-
-        // résultat brut de la requête
         List<Object[]> result = repository.getChiffreAffaireParProjet();
-
-        // transformation en DTO
         return result.stream()
                 .map(obj -> new FactureParProjetDTO(
                         (String) obj[0],
@@ -41,9 +30,19 @@ public class ReportingService {
                 .toList();
     }
 
-
-    // Retourne le nombre de phases terminées
     public Long countPhasesTerminees() {
         return repository.countPhasesTerminees();
+    }
+
+    // --- NOUVELLES STATISTIQUES ---
+
+    // Retourne le nombre total de projets dans le système
+    public Long countTotalProjets() {
+        return repository.countTotalProjets();
+    }
+
+    // Retourne le nombre de phases terminées qui attendent d'être facturées
+    public Long countPhasesTermineesNonFacturees() {
+        return repository.countPhasesTermineesNonFacturees();
     }
 }

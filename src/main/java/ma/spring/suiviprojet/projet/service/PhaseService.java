@@ -82,4 +82,63 @@ public class PhaseService {
         phase.setEtatRealisation(true);
         return phaseMapper.toResponseDTO(phaseRepository.save(phase));
     }
+    // --- MODIFIER UNE PHASE ---
+    public PhaseResponseDTO modifierPhase(Integer id, PhaseRequestDTO requestDTO) {
+
+        // 1. On récupère la phase existante
+        Phase phaseExistante = phaseRepository.findById(id)
+                .orElseThrow(() -> new RegleMetierException("Phase introuvable avec l'ID : " + id));
+
+        Projet projet = phaseExistante.getProjet();
+
+        // 2. RÈGLE : Vérification des dates internes de la phase
+        if (requestDTO.getDateDebut().isAfter(requestDTO.getDateFin())) {
+            throw new RegleMetierException("La date de début de la phase doit être antérieure à sa date de fin.");
+        }
+
+        // 3. RÈGLE : Les dates de la phase doivent être incluses dans le projet
+        if (requestDTO.getDateDebut().isBefore(projet.getDateDebut()) || requestDTO.getDateFin().isAfter(projet.getDateFin())) {
+            throw new RegleMetierException("Les dates de la phase doivent être comprises entre le "
+                    + projet.getDateDebut() + " et le " + projet.getDateFin());
+        }
+
+        // 4. RÈGLE : Le budget ne doit pas déborder (LE PIÈGE EST ICI)
+        List<Phase> phasesExistantes = phaseRepository.findByProjetId(projet.getId());
+
+        // On calcule la somme de toutes les AUTRES phases (on exclut celle qu'on modifie)
+        double sommeAutresPhases = phasesExistantes.stream()
+                .filter(p -> !p.getId().equals(id))
+                .mapToDouble(Phase::getMontant)
+                .sum();
+
+        if ((sommeAutresPhases + requestDTO.getMontant()) > projet.getMontant()) {
+            throw new RegleMetierException("Budget dépassé ! Le montant restant disponible pour cette phase est de : "
+                    + (projet.getMontant() - sommeAutresPhases));
+        }
+
+        // 5. Mise à jour via le Mapper (met à jour le libellé, dates, montant, etc.)
+        phaseMapper.updateEntityFromDto(requestDTO, phaseExistante);
+
+        // 6. Sauvegarde
+        phaseExistante = phaseRepository.save(phaseExistante);
+        return phaseMapper.toResponseDTO(phaseExistante);
+    }
+
+    // --- SUPPRIMER UNE PHASE ---
+    public void supprimerPhase(Integer id) {
+        Phase phaseExistante = phaseRepository.findById(id)
+                .orElseThrow(() -> new RegleMetierException("Phase introuvable avec l'ID : " + id));
+
+        phaseRepository.delete(phaseExistante);
+    }
+    public PhaseResponseDTO marquerCommeTerminee(Integer id) {
+        Phase phase = phaseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Phase introuvable avec l'ID : " + id));
+
+        // On change uniquement l'état de réalisation
+        phase.setEtatRealisation(true);
+
+        phase = phaseRepository.save(phase);
+        return phaseMapper.toResponseDTO(phase);
+    }
 }
