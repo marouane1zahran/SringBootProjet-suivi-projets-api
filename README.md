@@ -46,7 +46,8 @@ L'application implémente une sécurité basée sur les rôles (RBAC) :
 ## 🏗️ Architecture du Projet
 Le projet adopte une structure **Monorepo** pour faciliter le déploiement et la maintenance :
 * **/backend :** API REST développée avec Spring Boot (Architecture en couches : Controller, Service, Repository, DTO, Mapper).
-* **/frontend :** Interface SPA moderne développée avec React et Tailwind CSS.
+* **/frontend :** Interface SPA moderne développée avec React et Tailwind CSS.<br>
+  -------------------------------------------------------------------------------- <br>
   <img width="2048" height="1116" alt="MySQL" src="https://github.com/user-attachments/assets/1fe62088-0695-411a-9475-020936739419" />
 
 
@@ -145,6 +146,13 @@ https://github.com/user-attachments/assets/fedc1f7f-f0bd-4318-92af-472b21c6bb4b
 
 
 https://github.com/user-attachments/assets/e52d8fca-2029-4e5c-a000-825a09466fd9
+
+-Comptable et Financier :
+
+
+https://github.com/user-attachments/assets/bfada1e9-eaf6-48b4-aa61-e0a0c199025e
+
+
 
 
 
