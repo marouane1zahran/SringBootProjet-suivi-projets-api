@@ -123,7 +123,7 @@ Endpoints optimisés pour la data-visualisation sur le dashboard.
 * **`GET /api/reporting/a-facturer`** : Nombre de phases terminées en attente de facturation.
 
 ---
-
+FRONTEND CODE SOURCE : https://github.com/marouane1zahran/PROJET_SPRINGBOOT---SYSTEME-DE-SUIVI-DE-PROJETS-FRONTEND.git
 
 
 ---
