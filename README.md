@@ -125,6 +125,11 @@ Endpoints optimisés pour la data-visualisation sur le dashboard.
 ---
 FRONTEND CODE SOURCE : https://github.com/marouane1zahran/PROJET_SPRINGBOOT---SYSTEME-DE-SUIVI-DE-PROJETS-FRONTEND.git
 
+DEMO 
+
+
+https://github.com/user-attachments/assets/25e81ad5-1501-4493-b452-40337f27f416
+
 
 ---
 *Projet réalisé par Marouane Zahran , abderrahmane SOUAIKI ,oussama el mouekken- SIR 2026*.
