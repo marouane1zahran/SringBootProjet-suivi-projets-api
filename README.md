@@ -29,8 +29,9 @@ Ce projet a été développé dans le cadre de la licence **Systèmes d’Inform
 ## 👥 Rôles Utilisateurs
 L'application implémente une sécurité basée sur les rôles (RBAC) :
 * **Administrateur :** Gestion totale des clients, employés et configuration système.
-* **Directeur :** Accès au tableau de bord, reporting global et suivi des projets.
+* **secretaire :** Accès organisation, et suivi des projets.
 * **Comptable :** Gestion exclusive du module de facturation et suivi des paiements.
+* **chef de projet:** Gestion des projet,phases et affectaion employee-phase.
 
 ---
 
@@ -133,6 +134,21 @@ DEMO
 -cycle de vie :
 
 https://github.com/user-attachments/assets/25e81ad5-1501-4493-b452-40337f27f416
+
+-secretaire role :
+
+
+https://github.com/user-attachments/assets/fedc1f7f-f0bd-4318-92af-472b21c6bb4b
+
+-chef de projet role : 
+
+
+
+https://github.com/user-attachments/assets/e52d8fca-2029-4e5c-a000-825a09466fd9
+
+
+
+
 
 
 ---
