@@ -46,6 +46,9 @@ L'application implémente une sécurité basée sur les rôles (RBAC) :
 Le projet adopte une structure **Monorepo** pour faciliter le déploiement et la maintenance :
 * **/backend :** API REST développée avec Spring Boot (Architecture en couches : Controller, Service, Repository, DTO, Mapper).
 * **/frontend :** Interface SPA moderne développée avec React et Tailwind CSS.
+  <img width="2048" height="1116" alt="MySQL" src="https://github.com/user-attachments/assets/1fe62088-0695-411a-9475-020936739419" />
+
+
 
 ---
 
@@ -127,6 +130,7 @@ FRONTEND CODE SOURCE : https://github.com/marouane1zahran/PROJET_SPRINGBOOT---SY
 
 DEMO 
 
+-cycle de vie :
 
 https://github.com/user-attachments/assets/25e81ad5-1501-4493-b452-40337f27f416
 
