@@ -135,7 +135,14 @@ DEMO :
 - CYCLE DE VIE COMPLET (EXPLICATION):
   
 
-https://github.com/user-attachments/assets/3b998c06-e788-4d1e-badf-ea76963a156f
+PAR1 :
+
+
+https://github.com/user-attachments/assets/02f6cfa6-5fae-45ba-8cc9-ef58a6c4f751
+
+
+PART  :
+
 
 
 
