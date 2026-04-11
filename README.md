@@ -130,27 +130,15 @@ Endpoints optimisés pour la data-visualisation sur le dashboard.
 ---
 FRONTEND CODE SOURCE : https://github.com/marouane1zahran/PROJET_SPRINGBOOT---SYSTEME-DE-SUIVI-DE-PROJETS-FRONTEND.git
 
-DEMO 
+DEMO :
 
--cycle de vie :
+- CYCLE DE VIE COMPLET (EXPLICATION):
+  
 
-https://github.com/user-attachments/assets/25e81ad5-1501-4493-b452-40337f27f416
-
--secretaire role :
-
-
-https://github.com/user-attachments/assets/fedc1f7f-f0bd-4318-92af-472b21c6bb4b
-
--chef de projet role : 
+https://github.com/user-attachments/assets/3b998c06-e788-4d1e-badf-ea76963a156f
 
 
 
-https://github.com/user-attachments/assets/e52d8fca-2029-4e5c-a000-825a09466fd9
-
--Comptable et Financier :
-
-
-https://github.com/user-attachments/assets/bfada1e9-eaf6-48b4-aa61-e0a0c199025e
 
 
 
